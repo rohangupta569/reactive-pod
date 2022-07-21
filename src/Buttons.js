@@ -8,16 +8,16 @@ const Buttons = (props )=>
                 <h2>Select</h2>
             </button>
             <button className="menu-button">
-                <i class="fas fa-bars"></i>
+                <i className="fas fa-bars"></i>
             </button>
             <button className="left-button">
-                <i class="fas fa-backward"></i>
+                <i className="fas fa-backward"></i>
             </button>
             <button className="right-button">
-                <i class="fas fa-forward"></i>
+                <i className="fas fa-forward"></i>
             </button>
             <button className="play-pause">
-                <i class="fas fa-play"></i> /<i class="fas fa-pause"></i>
+                <i className="fas fa-play"></i> /<i className="fas fa-pause"></i>
             </button>
         </div>
     );
