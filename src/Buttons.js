@@ -4,7 +4,7 @@ const Buttons = (props )=>
 {
     return (
         <div className="buttons-container">
-            <button className="center-circle">
+            <button className="center-circle" onClick={props.selectButtonClicked}>
                 <h2>Select</h2>
             </button>
             <button className="menu-button" onClick={props.menuButtonClicked}>

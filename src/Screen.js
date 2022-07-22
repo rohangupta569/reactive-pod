@@ -14,6 +14,11 @@ class Screen extends React.Component
                 <Menu
                    selectedOption={this.props.selectedOption}
                 />
+
+                {this.props.showPage === 0 ? <Game /> : ''}
+                {this.props.showPage === 1 ? <Music /> : ''}
+                {this.props.showPage === 2 ? <Setting /> : ''}
+                {this.props.showPage === 3 ? <Coverflow /> : ''}
             </div>
         );
   }  

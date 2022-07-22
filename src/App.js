@@ -16,7 +16,8 @@ class App extends React.Component
     this.state = {
       options: ['Games', 'Music', 'Settings', 'Cover Flow'],
       change_in_angle: 0,
-      selected: 0
+      selected: 0,
+      showPage:-1
     }
   }
   componentDidMount()
@@ -51,10 +52,10 @@ class App extends React.Component
           this.temp_change_in_angle = 0;
         }
     });
-    zt.bind(document.getElementsByClassName('center-circle')[0], 'tap', (event) =>
-    {
-        event.stopPropagation();
-    });
+    // zt.bind(document.getElementsByClassName('center-circle')[0], 'tap', (event) =>
+    // {
+    //     event.stopPropagation();
+    // });
 
   }
 
@@ -62,7 +63,7 @@ class App extends React.Component
   menuButtonClicked =()=>
   {
       let screenMenuClassList=document.getElementsByClassName('screen-menu')[0].classList;
-      console.log($('.screen-menu'))
+      // console.log($('.screen-menu'));
       if(screenMenuClassList.contains('width-50'))
       {
           $('.screen-menu').removeClass('width-50');//hide menu
@@ -73,17 +74,27 @@ class App extends React.Component
       }
   }
 
+  selectButtonClicked = () =>
+    {
+        this.menuButtonClicked();
+        this.setState({
+            showPage:this.state.selected
+        });
+    }
+
   render()
   {
     return (
       <div className="App">
           <Screen 
             selectedOption={this.state.selected}
+            showPage={this.state.showPage}
           />
           <Buttons
             check={this.checker}
             centerButton={this.centerButton} 
             menuButtonClicked={this.menuButtonClicked}
+            selectButtonClicked={this.selectButtonClicked}
           />
       </div>
     );
