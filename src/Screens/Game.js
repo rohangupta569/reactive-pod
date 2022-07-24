@@ -1,5 +1,4 @@
 import React from 'react';
-import './game_style.css'
 
 class Game extends React.Component
 {
