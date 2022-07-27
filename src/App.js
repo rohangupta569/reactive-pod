@@ -11,15 +11,15 @@ class App extends React.Component
  constructor()
   {
     super();
-    this.temp_change_in_angle=0;
-    this.temp_selected=0;
+    this.temp_change_in_angle = 0;
+    this.temp_selected = 0;
     this.state = {
-      options: ['Games', 'Music', 'Settings', 'Cover Flow'],
+      options: ['Games', 'Music', 'Settings', 'CoverFlow'],
       change_in_angle: 0,
       selected: 0,
-      showPage:-1,
-      general_menu:['Games', 'Music', 'Settings', 'Cover Flow'],
-      songs_sub_menu:['All Songs', 'Artists', 'Albums']
+      showPage: -1,
+      general_menu: ['Games', 'Music', 'Settings', 'CoverFlow'],
+      songs_sub_menu: ['All Songs', 'Artists', 'Albums']
     }
   }
   componentDidMount()
@@ -43,7 +43,7 @@ class App extends React.Component
         {
           this.temp_selected--;
           if (this.temp_selected === -1){
-              this.temp_selected = this.state.options.length-1;
+              this.temp_selected = this.state.options.length - 1;
           }
           
           this.temp_selected= this.temp_selected % this.state.options.length;
@@ -62,19 +62,19 @@ class App extends React.Component
   }
 
 
-  menuButtonClicked =()=>
+  menuButtonClicked = () =>
   {
-    if(this.state.options===this.state.songs_sub_menu)
+    /*if(this.state.options === this.state.songs_sub_menu)
     {
         this.setState({
-            options:this.state.general_menu
+            options: this.state.general_menu
         });
         return;
-    }
+    }*/
 
-    let screenMenuClassList=document.getElementsByClassName('screen-menu')[0].classList;
+    let screenMenuClassList = document.getElementsByClassName('screen-menu')[0].classList;
     // console.log($('.screen-menu'));
-    if(screenMenuClassList.contains('width-50'))
+    if (screenMenuClassList.contains('width-50'))
     {
         $('.screen-menu').removeClass('width-50');//hide menu
     }
@@ -86,20 +86,31 @@ class App extends React.Component
 
   selectButtonClicked = () =>
     {
-      if(this.state.selected===1)
+      if(this.state.selected === 1 && this.state.options.length === 4)
       {
           this.setState(
               {
-                  options:this.state.songs_sub_menu
+                  options: this.state.songs_sub_menu
               }
           );
           return;
       }
-        this.menuButtonClicked();
-        this.setState({
-            showPage:this.state.selected
-        });
+      this.setState({
+          showPage: this.state.selected
+      });
+      this.menuButtonClicked();
+
     }
+      leftButtonClicked = () =>
+      {
+        if (this.state.options.length === 3)
+          this.setState(
+          {
+            options: this.state.general_menu
+          }
+          );
+        return;
+      }
 
   render()
   {
@@ -115,10 +126,11 @@ class App extends React.Component
             centerButton={this.centerButton} 
             menuButtonClicked={this.menuButtonClicked}
             selectButtonClicked={this.selectButtonClicked}
+            leftButtonClicked={this.leftButtonClicked}
           />
       </div>
     );
-  } 
+ }
 }
 
 export default App;

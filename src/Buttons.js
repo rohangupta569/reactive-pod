@@ -10,7 +10,7 @@ const Buttons = (props )=>
             <button className="menu-button" onClick={props.menuButtonClicked}>
                 <i className="fas fa-bars"></i>
             </button>
-            <button className="left-button">
+            <button className="left-button"  onClick={props.leftButtonClicked}>
                 <i className="fas fa-backward"></i>
             </button>
             <button className="right-button">
