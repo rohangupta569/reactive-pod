@@ -17,7 +17,9 @@ class App extends React.Component
       options: ['Games', 'Music', 'Settings', 'Cover Flow'],
       change_in_angle: 0,
       selected: 0,
-      showPage:-1
+      showPage:-1,
+      general_menu:['Games', 'Music', 'Settings', 'Cover Flow'],
+      songs_sub_menu:['All Songs', 'Artists', 'Albums']
     }
   }
   componentDidMount()
@@ -30,7 +32,7 @@ class App extends React.Component
         if(this.temp_change_in_angle > 60)
         {
           this.temp_selected++;
-          this.temp_selected= this.temp_selected % 4;
+          this.temp_selected= this.temp_selected % this.state.options.length;
           this.setState({
             selected: this.temp_selected
           });
@@ -41,10 +43,10 @@ class App extends React.Component
         {
           this.temp_selected--;
           if (this.temp_selected === -1){
-              this.temp_selected = 3;
+              this.temp_selected = this.state.options.length-1;
           }
           
-          this.temp_selected= this.temp_selected % 4;
+          this.temp_selected= this.temp_selected % this.state.options.length;
           this.setState({
             selected: this.temp_selected
           });
@@ -62,20 +64,37 @@ class App extends React.Component
 
   menuButtonClicked =()=>
   {
-      let screenMenuClassList=document.getElementsByClassName('screen-menu')[0].classList;
-      // console.log($('.screen-menu'));
-      if(screenMenuClassList.contains('width-50'))
-      {
-          $('.screen-menu').removeClass('width-50');//hide menu
-      }
-      else
-      {
-          $('.screen-menu').addClass('width-50');//show menu
-      }
+    if(this.state.options===this.state.songs_sub_menu)
+    {
+        this.setState({
+            options:this.state.general_menu
+        });
+        return;
+    }
+
+    let screenMenuClassList=document.getElementsByClassName('screen-menu')[0].classList;
+    // console.log($('.screen-menu'));
+    if(screenMenuClassList.contains('width-50'))
+    {
+        $('.screen-menu').removeClass('width-50');//hide menu
+    }
+    else
+    {
+        $('.screen-menu').addClass('width-50');//show menu
+    }
   }
 
   selectButtonClicked = () =>
     {
+      if(this.state.selected===1)
+      {
+          this.setState(
+              {
+                  options:this.state.songs_sub_menu
+              }
+          );
+          return;
+      }
         this.menuButtonClicked();
         this.setState({
             showPage:this.state.selected
@@ -89,6 +108,7 @@ class App extends React.Component
           <Screen 
             selectedOption={this.state.selected}
             showPage={this.state.showPage}
+            optionsInMenu={this.state.options}
           />
           <Buttons
             check={this.checker}

@@ -1,4 +1,5 @@
 import React from 'react';
+import MenuItems from './MenuItems';
 
 class Menu extends React.Component
 {
@@ -23,6 +24,10 @@ class Menu extends React.Component
                 <div  className={selectedOption === 3 ? 'selected' : ''}>
                     <p>Cover Flow</p>
                 </div>
+                <MenuItems
+                    optionsInMenu={this.props.optionsInMenu}
+                    selectedOption={selectedOption}
+                />
             </div>
         )
     }

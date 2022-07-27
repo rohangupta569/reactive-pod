@@ -13,6 +13,7 @@ class Screen extends React.Component
 
                 <Menu
                    selectedOption={this.props.selectedOption}
+                   optionsInMenu={this.props.optionsInMenu}
                 />
 
                 {this.props.showPage === 0 ? <Game /> : ''}
