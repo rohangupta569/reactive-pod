@@ -90,7 +90,9 @@ class App extends React.Component
       {
           this.setState(
               {
-                  options: this.state.songs_sub_menu
+                  options: this.state.songs_sub_menu,
+                  selected:0,
+                  showPage:0
               }
           );
           return;
@@ -103,7 +105,7 @@ class App extends React.Component
     }
       leftButtonClicked = () =>
       {
-        if (this.state.options.length === 3)
+        if (this.state.options.length === 3 && document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is optn and it is on the songs page only then if the left button clicked, menu will be changed to general options)
           this.setState(
           {
             options: this.state.general_menu
