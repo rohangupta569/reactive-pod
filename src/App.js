@@ -20,7 +20,8 @@ class App extends React.Component
       showPage: -1,
       general_menu: ['Games', 'Music', 'Settings', 'CoverFlow'],
       songs_sub_menu: ['All Songs', 'Artists', 'Albums'],
-      current_music_selection: 0
+      current_music_selection: 0,
+      song_index: -1
     }
   }
   componentDidMount()
@@ -35,7 +36,8 @@ class App extends React.Component
           this.temp_selected++;
           this.temp_selected= this.temp_selected % this.state.options.length;
           this.setState({
-            selected: this.temp_selected
+            selected: this.temp_selected,
+            song_index: -1
           });
 
           this.temp_change_in_angle = 0;
@@ -49,7 +51,8 @@ class App extends React.Component
           
           this.temp_selected= this.temp_selected % this.state.options.length;
           this.setState({
-            selected: this.temp_selected
+            selected: this.temp_selected,
+            song_index: -1
           });
 
           this.temp_change_in_angle = 0;
@@ -93,13 +96,32 @@ class App extends React.Component
               {
                   options: this.state.songs_sub_menu,
                   selected: 0,
-                  showPage: 0
+                  showPage: 0 ,
+                  song_index: -1//we dont want to play any song
               }
           );
           return;
       }
+      if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
+        {
+            if (this.state.options.length === 3)//I must be on the music section
+            {
+                if (this.state.showPage === 0)//I am on all songs page
+                {
+                    if (this.state.song_index === -1)//we are not on the music page
+                    {
+                        this.setState({
+                            song_index: this.state.current_music_selection//which song to play (here we want to play a song)
+                        });
+                        return;
+                    }
+
+                }
+            }
+        }
       this.setState({
-          showPage: this.state.selected
+          showPage: this.state.selected,
+          song_index: -1//we dont want to play any song
       });
       this.menuButtonClicked();
 
@@ -109,10 +131,29 @@ class App extends React.Component
         if (this.state.options.length === 3 && document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is optn and it is on the songs page only then if the left button clicked, menu will be changed to general options)
           this.setState(
           {
-            options: this.state.general_menu
+            options: this.state.general_menu,
+            song_index:-1
           }
           );
-        return;
+          if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
+          {
+              if (this.state.options.length === 3)//I must be on the music section
+              {
+                  if (this.state.showPage === 0)//I am on all songs page
+                  {
+                      if (this.state.current_music_selection === 0)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
+                          this.setState({
+                              current_music_selection: 5,
+                              song_index:-1
+                          });
+                      else
+                          this.setState({
+                              current_music_selection: this.state.current_music_selection - 1,
+                              song_index:-1
+                          });
+                  }
+              }
+          }
       }
       rightButtonClicked = () =>
     {
@@ -144,6 +185,7 @@ class App extends React.Component
             showPage={this.state.showPage}
             optionsInMenu={this.state.options}
             currentMusicSelection={this.state.current_music_selection}
+            songIndex={this.state.song_index}
           />
           <Buttons
             check={this.checker}
