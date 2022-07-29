@@ -19,7 +19,8 @@ class App extends React.Component
       selected: 0,
       showPage: -1,
       general_menu: ['Games', 'Music', 'Settings', 'CoverFlow'],
-      songs_sub_menu: ['All Songs', 'Artists', 'Albums']
+      songs_sub_menu: ['All Songs', 'Artists', 'Albums'],
+      current_music_selection: 0
     }
   }
   componentDidMount()
@@ -91,8 +92,8 @@ class App extends React.Component
           this.setState(
               {
                   options: this.state.songs_sub_menu,
-                  selected:0,
-                  showPage:0
+                  selected: 0,
+                  showPage: 0
               }
           );
           return;
@@ -113,6 +114,26 @@ class App extends React.Component
           );
         return;
       }
+      rightButtonClicked = () =>
+    {
+        if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
+        {
+            if (this.state.options.length === 3)//I must be on the music section
+            {
+                if (this.state.showPage === 0)//I am on all songs page
+                {
+                  if (this.state.current_music_selection === 5)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
+                  this.setState({
+                    current_music_selection: 0
+                  });
+                  else
+                  this.setState({
+                    current_music_selection: this.state.current_music_selection + 1
+                  });
+                }
+            }
+        }
+    }
 
   render()
   {
@@ -122,6 +143,7 @@ class App extends React.Component
             selectedOption={this.state.selected}
             showPage={this.state.showPage}
             optionsInMenu={this.state.options}
+            currentMusicSelection={this.state.current_music_selection}
           />
           <Buttons
             check={this.checker}
@@ -129,6 +151,7 @@ class App extends React.Component
             menuButtonClicked={this.menuButtonClicked}
             selectButtonClicked={this.selectButtonClicked}
             leftButtonClicked={this.leftButtonClicked}
+            rightButtonClicked={this.rightButtonClicked}
           />
       </div>
     );
