@@ -24,6 +24,11 @@ class Music extends React.Component
                 <div style={{marginTop:20}}>
                     <audio controls="seeking" id="audio" src={Songs[songIndex].url}></audio>
                 </div>
+                <div className='screen-music-instruction'>
+                    <p>
+                      Press "<i className="fas fa-play"></i>/<i className="fas fa-pause"></i>" button to play/pause.
+                    </p>
+                </div>
             </div>
         );
     }
