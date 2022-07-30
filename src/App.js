@@ -21,7 +21,8 @@ class App extends React.Component
       general_menu: ['Games', 'Music', 'Settings', 'CoverFlow'],
       songs_sub_menu: ['All Songs', 'Artists', 'Albums'],
       current_music_selection: 0,
-      song_index: -1
+      song_index: -1,
+      currently_on_play_music_screen: false
     }
   }
   componentDidMount()
@@ -89,97 +90,167 @@ class App extends React.Component
   }
 
   selectButtonClicked = () =>
+  {
+    if(this.state.selected === 1 && this.state.options.length === 4)
     {
-      if(this.state.selected === 1 && this.state.options.length === 4)
+        this.setState(
+            {
+                options: this.state.songs_sub_menu,
+                selected: 0,
+                showPage: 0 ,
+                song_index: -1,//we dont want to play any song
+                songNavigate:0
+            }
+        );
+        this.temp_selected = 0;
+        return;
+    }
+    if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
       {
-          this.setState(
+          if (this.state.options.length === 3)//I must be on the music section
+          {
+              if (this.state.showPage === 0)//I am on all songs page
               {
-                  options: this.state.songs_sub_menu,
-                  selected: 0,
-                  showPage: 0 ,
-                  song_index: -1//we dont want to play any song
+                  if (this.state.song_index === -1)//we are not on the music page
+                  {
+                      this.setState({
+                          song_index: this.state.current_music_selection,//which song to play (here we want to play a song)
+                          songNavigate:0
+                      });
+                      this.temp_selected = 0;
+                      return;
+                  }
+
               }
-          );
-          return;
+          }
+      }
+    this.setState({
+        showPage: this.state.selected,
+        song_index: -1,//we dont want to play any song
+        selected: 0
+    });
+    this.temp_selected = 0;
+    this.menuButtonClicked();
+
+  }
+  leftButtonClicked = () =>
+  {
+    /* the left button could have also been clicked to change the song which is currently being played to the previous song. */
+    if(this.state.currently_on_play_music_screen)//if i am on the play music screen
+    {
+        if(!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is not present on the screen
+        {
+            //here i can switch to next song
+            if(this.state.song_index===0)
+            {
+                this.setState({
+                    song_index:5
+                });
+                return;
+            }
+            if(this.state.song_index!==-1)
+            {
+                this.setState({
+                    song_index:this.state.song_index-1
+                });
+            }
+        }
+    }
+
+    if (this.state.options.length === 3 && document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is open and it is on the songs page only then if the left button clicked, menu will be changed to general options
+      this.setState(
+      {
+        options: this.state.general_menu,
+        song_index:-1,
+        selected: 0
+      }
+      );
+      if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
+      {
+          if (this.state.options.length === 3)//I must be on the music section
+          {
+              if (this.state.showPage === 0)//I am on all songs page
+              {
+                  if (this.state.current_music_selection === 0)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
+                      this.setState({
+                          current_music_selection: 5,
+                          song_index: -1
+                      });
+                  else
+                      this.setState({
+                          current_music_selection: this.state.current_music_selection - 1,
+                          song_index: -1
+                      });
+              }
+          }
+      }
+  }
+  rightButtonClicked = () =>
+  {
+      /* the right button could have also been clicked to change the song which is currently being played to the next song. */
+      if(this.state.currently_on_play_music_screen)//if i am on the play music screen
+      {
+          if(!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is not present on the screen
+          {
+              //here i can switch to next song
+              if(this.state.song_index===5)
+              {
+                  this.setState({
+                      song_index:0
+                  });
+                  return;
+              }
+              if(this.state.song_index!==-1)
+              {
+                  this.setState({
+                      song_index:this.state.song_index+1
+                  });
+                  return;
+              }
+          }
       }
       if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
-        {
-            if (this.state.options.length === 3)//I must be on the music section
-            {
-                if (this.state.showPage === 0)//I am on all songs page
-                {
-                    if (this.state.song_index === -1)//we are not on the music page
-                    {
-                        this.setState({
-                            song_index: this.state.current_music_selection//which song to play (here we want to play a song)
-                        });
-                        return;
-                    }
-
-                }
-            }
-        }
-      this.setState({
-          showPage: this.state.selected,
-          song_index: -1//we dont want to play any song
-      });
-      this.menuButtonClicked();
-
-    }
-      leftButtonClicked = () =>
       {
-        if (this.state.options.length === 3 && document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is optn and it is on the songs page only then if the left button clicked, menu will be changed to general options)
-          this.setState(
+          if (this.state.options.length === 3)//I must be on the music section
           {
-            options: this.state.general_menu,
-            song_index:-1
-          }
-          );
-          if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
-          {
-              if (this.state.options.length === 3)//I must be on the music section
+              if (this.state.showPage === 0)//I am on all songs page
               {
-                  if (this.state.showPage === 0)//I am on all songs page
-                  {
-                      if (this.state.current_music_selection === 0)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
-                          this.setState({
-                              current_music_selection: 5,
-                              song_index:-1
-                          });
-                      else
-                          this.setState({
-                              current_music_selection: this.state.current_music_selection - 1,
-                              song_index:-1
-                          });
-                  }
+                if (this.state.current_music_selection === 5)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
+                this.setState({
+                  current_music_selection: 0
+                });
+                else
+                this.setState({
+                  current_music_selection: this.state.current_music_selection + 1
+                });
               }
           }
       }
-      rightButtonClicked = () =>
-    {
-        if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
-        {
-            if (this.state.options.length === 3)//I must be on the music section
-            {
-                if (this.state.showPage === 0)//I am on all songs page
-                {
-                  if (this.state.current_music_selection === 5)//If I am playing the music at 5th index then I will need to reduce the index to 0 on next right button click.
-                  this.setState({
-                    current_music_selection: 0
-                  });
-                  else
-                  this.setState({
-                    current_music_selection: this.state.current_music_selection + 1
-                  });
-                }
-            }
-        }
-    }
+  }
 
-    playPauseButtonClicked=()=>
-    {
+  currentlyOnPlayMusicScreen = () =>
+  {
+      if (this.state.currently_on_play_music_screen)
+      {
+        this.setState({
+          currently_on_play_music_screen: false
+        });
+      }
+      else
+        this.setState({
+          currently_on_play_music_screen: true
+        });
+  }
+
+  playPauseButtonClicked = () =>
+  {
+    if ($('#audio')[0].paused)
+      {
         $('#audio')[0].play();
-    }
+        return;
+      }
+      $('#audio')[0].pause();
+  }
 
   render()
   {
@@ -191,6 +262,7 @@ class App extends React.Component
             optionsInMenu={this.state.options}
             currentMusicSelection={this.state.current_music_selection}
             songIndex={this.state.song_index}
+            currentlyOnPlayMusicScreen={this.currentlyOnPlayMusicScreen}
           />
           <Buttons
             check={this.checker}
