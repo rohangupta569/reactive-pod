@@ -4,7 +4,8 @@ class Music extends React.Component
 {
     componentDidMount()
     {
-        this.props.currentlyOnPlayMusicScreen()
+        this.props.currentlyOnPlayMusicScreen();
+        this.props.playPauseButtonClicked();
     }
     componentWillUnmount()
     {
