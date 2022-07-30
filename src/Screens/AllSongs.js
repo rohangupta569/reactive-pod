@@ -53,7 +53,14 @@ class AllSongs extends React.Component
                 playPauseButtonClicked={this.props.playPauseButtonClicked}
             />;
         }
-        return (this.state.loading ? <h1>Loading...</h1> :
+        return (this.state.loading ? 
+
+            <div className='loading-screen'>
+                <h1>Loading...</h1>
+                <div class="loader"></div>
+                <div>Please make sure that you are connected to the internet. Songs are fetched from the firebase storage.</div>
+            </div>
+            :
             <div className="all-songs">
                 <h1 className="all-songs-heading">
                     All Songs
