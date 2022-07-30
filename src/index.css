@@ -160,7 +160,7 @@ code {
     box-shadow: 0px 0px 12px 1px rgb(82, 82, 82) !important;
 }
 
-.screen-menu>div {
+.screen-menu > div {
     display: flex;
 	justify-content: center;
 	align-items: center;
