@@ -7,7 +7,7 @@ class Albums extends React.Component
         return (
             <div className="albums-screen"> 
                 <div>
-                    <i class="fas fa-icons"></i>
+                    <i className="fas fa-icons"></i>
                 </div>
             </div>
         )
