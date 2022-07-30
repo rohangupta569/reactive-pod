@@ -7,7 +7,7 @@ class Artists extends React.Component
         return (
             <div className="artists-screen">
                 <div>
-                    <i class="far fa-smile"></i>
+                    <i className="far fa-smile"></i>
                 </div>
             </div>
         )

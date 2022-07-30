@@ -30,34 +30,37 @@ class App extends React.Component
     var zt = new ZingTouch.Region(document.getElementsByClassName('buttons-container')[0]);
     zt.bind(document.getElementsByClassName('buttons-container')[0], 'rotate', (event) =>
     {
-        let dist = event.detail.distanceFromLast;
-        this.temp_change_in_angle += dist;
-        if(this.temp_change_in_angle > 60)
+      if (document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//this rotating facility will only be available when the side bar is shown to the user.
         {
-          this.temp_selected++;
-          this.temp_selected= this.temp_selected % this.state.options.length;
-          this.setState({
-            selected: this.temp_selected,
-            //song_index: -1
-          });
+          let dist = event.detail.distanceFromLast;
+          this.temp_change_in_angle += dist;
+          if (this.temp_change_in_angle > 60)
+          {
+            this.temp_selected++;
+            this.temp_selected = this.temp_selected % this.state.options.length;
+            this.setState({
+                selected: this.temp_selected,
+                // song_index: -1
+              });
 
-          this.temp_change_in_angle = 0;
-        }
-        else if(this.temp_change_in_angle < -60)
-        {
-          this.temp_selected--;
-          if (this.temp_selected === -1){
-              this.temp_selected = this.state.options.length - 1;
+            this.temp_change_in_angle = 0;
           }
+          else if(this.temp_change_in_angle < -60)
+         {
+           this.temp_selected--;
+           if (this.temp_selected === -1){
+              this.temp_selected = this.state.options.length - 1;
+            }
           
-          this.temp_selected= this.temp_selected % this.state.options.length;
-          this.setState({
-            selected: this.temp_selected,
-            //song_index: -1
-          });
+            this.temp_selected= this.temp_selected % this.state.options.length;
+            this.setState({
+              selected: this.temp_selected,
+              //song_index: -1
+            });
 
-          this.temp_change_in_angle = 0;
-        }
+            this.temp_change_in_angle = 0;
+         }
+       }
     });
     // zt.bind(document.getElementsByClassName('center-circle')[0], 'tap', (event) =>
     // {
@@ -140,6 +143,10 @@ class App extends React.Component
     {
         if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is not present on the screen
         {
+            if ($('#audio')[0] !== undefined)/* handling the turning off of button lights when i play the next song  */
+            {
+              $('.buttons-container').removeClass('colored');
+            }
             //here i can switch to next song
             if (this.state.song_index === 0)
             {
@@ -193,21 +200,25 @@ class App extends React.Component
       {
           if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//if the menu is not present on the screen
           {
-              //here i can switch to next song
-              if (this.state.song_index === 5)
-              {
-                  this.setState({
-                      song_index: 0
-                  });
-                  return;
-              }
-              if (this.state.song_index !== -1)
-              {
-                  this.setState({
-                      song_index: this.state.song_index + 1
-                  });
-                  return;
-              }
+            if ($('#audio')[0] !== undefined)/* handling the turning off of button lights when i play the next song  */
+            {
+              $('.buttons-container').removeClass('colored');
+            }
+            //here i can switch to next song
+            if (this.state.song_index === 5)
+            {
+                this.setState({
+                    song_index: 0
+                });
+                return;
+            }
+            if (this.state.song_index !== -1)
+            {
+                this.setState({
+                    song_index: this.state.song_index + 1
+                });
+                return;
+            }
           }
       }
       if (!document.getElementsByClassName('screen-menu')[0].classList.contains('width-50'))//side menu is not visible
@@ -246,7 +257,7 @@ class App extends React.Component
 
   playPauseButtonClicked = () =>
   {
-    if ($('#audio')[0]!==undefined)
+    if ($('#audio')[0] !== undefined)
       {
        if ($('#audio')[0].paused)//if the music is paused i will play it, also turn on the button lights
         {
@@ -258,6 +269,12 @@ class App extends React.Component
         $('.buttons-container').removeClass('colored');
     }
   }
+  rotatePod=()=>
+    {
+      $('.App').toggleClass('rotate-anti-clockwise');
+      $('.buttons-container').toggleClass('rotate-clockwise');
+      $('.screen-container').toggleClass('rotate-clockwise');
+    }
 
   render()
   {
@@ -281,6 +298,9 @@ class App extends React.Component
             rightButtonClicked={this.rightButtonClicked}
             playPauseButtonClicked={this.playPauseButtonClicked}
           />
+          <button className="rotate" onClick={this.rotatePod}>
+            <i className="fas fa-undo"></i>
+          </button>
       </div>
     );
  }
