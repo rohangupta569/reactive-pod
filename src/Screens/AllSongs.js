@@ -18,35 +18,29 @@ class AllSongs extends React.Component
         firebase.storage().ref().child('music').listAll()
         .then((data) =>
         {
-            data.items.forEach(async (ref)=>
+            data.items.forEach(async (ref) =>
             {
-                data.items.forEach(async (ref) =>
-                {
-                    await ref.getDownloadURL()
-                        .then((url) =>
-                        {
-                            this.new_data_array.push({ name: ref.name, url: url });
-                            if (this.new_data_array.length === 6)//load the component when all the songs are added to the array.
-                            {
-                                this.setState({
-                                    all_songs_list: this.new_data_array,
-                                    loading: false
-                                });
-                            }
-                        })
-                        .catch((error) =>
-                        {
-                            console.log(error);
-                        })
-                })
-                .catch((error) =>
-                {
-                    if (error){
-                    console.log(error);
-                    }
-                })
-            })
+                await ref.getDownloadURL()
+                    .then((url) =>
+                    {
+                        this.new_data_array.push({ name: ref.name, url: url })
+                        this.setState({
+                            all_songs_list: this.new_data_array,
+                            loading: false
+                        });
+                    })
+                    .catch((error) =>
+                    {
+                        console.log(error);
+                    })
+               })
         })
+            .catch((error) =>
+            {
+                if (error){
+                console.log(error);
+                }
+            })
     }
     render()
     {
