@@ -6,9 +6,9 @@ class Artists extends React.Component
     {
         return (
             <div className="artists-screen">
-                <h1>
-                    Artists
-                </h1>
+                <div>
+                    <i class="far fa-smile"></i>
+                </div>
             </div>
         )
 

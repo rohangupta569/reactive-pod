@@ -6,9 +6,9 @@ class Albums extends React.Component
     {
         return (
             <div className="albums-screen"> 
-                <h1>
-                    Albums
-                </h1>
+                <div>
+                    <i class="fas fa-icons"></i>
+                </div>
             </div>
         )
 
